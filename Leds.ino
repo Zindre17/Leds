@@ -50,7 +50,9 @@ void loop() {
   if(b_button.check()){
     brightness++;
     brightness %= maxBrightness;
-    test.setBrightness(brightness);  
+    test.setBrightness(brightness);
+    upper.setBrightness(brightness);
+    lower.setBrightness(brightness);  
     return;
   }
   //check for color mode change
@@ -77,6 +79,8 @@ void loop() {
         break;
     }
     updateMode = true;
+    upper.resetCounter();
+    lower.resetCounter();
     test.resetCounter();
     return;
   }
@@ -93,48 +97,61 @@ void loop() {
 void White(){
   switch(mode){
     case 0:
+      upper.solidWhite();
+      lower.solidWhite();
       test.solidWhite();
       break;
   }
 }
 
 void Color(){
+  upper.solidColor(mode);
+  lower.solidColor(mode);
   test.solidColor(mode);
 }
 
 void Multi(){
+  perFrame = true;
   switch(mode){
     case 0:
-      perFrame = true;
+      upper.breathing(8);
+      lower.breathing(8);
       test.breathing(8);
       break;
     case 1:
-      perFrame = true;
       test.breathing(2);
+      upper.breathing(2);
+      lower.breathing(2);
       break;
     case 2:
-      perFrame = true;
+      upper.movingRainbow(0);
+      lower.movingRainbow(0);
       test.movingRainbow(0);
       break;
     case 3:
-      perFrame = true;
+      upper.movingRainbow(4);
+      lower.movingRainbow(4);
       test.movingRainbow(4);
       break;
     case 4:
-      perFrame = true;
       test.beams(true, 500);
+      upper.beams(true, 500);
+      lower.beams(true, 500);
       break;
     case 5:
-      perFrame = true;
       test.beams(false, 200);
+      upper.beams(true, 500);
+      lower.beams(false, 500);
       break;
     case 6:
-      perFrame = true;
       test.bars(true,3,10000);
+      upper.bars(true, 10, 7000);
+      lower.bars(true, 10, 7000);
       break;
     case 7:
-      perFrame = true;
       test.bars(false,2,6000);
+      upper.bars(true, 10, 7000);
+      lower.bars(false, 10, 7000);
       break;
   } 
 }
